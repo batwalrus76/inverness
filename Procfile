@@ -1,1 +1,1 @@
-web: lein with-profile production trampoline run -m inverness.web
+web: lein run
