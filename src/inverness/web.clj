@@ -44,9 +44,9 @@
         :headers {"Content-Type" "text/plain"}
         :body (pr-str ["Hello" :from 'Heroku])})
   (route/resources "/")
-  (route/not-found "Page not found"))
+  (route/not-found "Page not found")
   (ANY "*" []
-       (route/not-found (slurp (io/resource "404.html"))))
+       (route/not-found (slurp (io/resource "404.html")))))
 
 (defn wrap-error-page [handler]
   (fn [req]
@@ -67,10 +67,17 @@
              wrap-content-type
              wrap-dir-index
              handler/site))
-(defn -main
-  [& args]
-  (let [port (or (first *command-line-args*) 8080)]
-    (jetty/run-jetty app {:port port})))
+
+(defn -main [& [port]]
+  (let [port (Integer. (or port (env :port) 5000))
+        ;; TODO: heroku config:add SESSION_SECRET=$RANDOM_16_CHARS
+        store (cookie/cookie-store {:key (env :session-secret)})]
+    (jetty/run-jetty (-> #'app
+                         ((if (env :production)
+                            wrap-error-page
+                            trace/wrap-stacktrace))
+                         (site {:session {:store store}}))
+                     {:port port :join? false})))
 
 ;; For interactive development:
 ;; (.stop server)
