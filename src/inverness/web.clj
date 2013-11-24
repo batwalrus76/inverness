@@ -27,6 +27,11 @@
       (session/wrap-session)
       (basic/wrap-basic-authentication authenticated?)))
 
+(defn json-response [data & [status]]
+  {:status (or status 200)
+   :headers {"Content-Type" "application/json"}
+   :body (json/generate-string data)})
+
 (defroutes app
   (ANY "/repl" {:as req}
        (drawbridge req))
