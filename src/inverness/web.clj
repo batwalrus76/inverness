@@ -56,17 +56,17 @@
             :headers {"Content-Type" "text/html"}
             :body (slurp (io/resource "500.html"))}))))
 
-(def app (-> api-routes
-             wrap-params
-             wrap-content-type
-             wrap-dir-index
-             handler/site))
-
 (defn wrap-dir-index
   "Middleware to force request for / to return index.html"
   [handler]
   (fn [req]
     (handler (update-in req [:uri] #(if (= "/" %) "/index.html" %)))))
+
+(def app (-> api-routes
+             wrap-params
+             wrap-content-type
+             wrap-dir-index
+             handler/site))
 
 (defn -main [& [port]]
   (let [port (Integer. (or port (env :port) 5000))
