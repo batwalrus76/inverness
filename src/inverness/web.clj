@@ -32,7 +32,7 @@
    :headers {"Content-Type" "application/json"}
    :body (json/generate-string data)})
 
-(defroutes app
+(defroutes api-routes
   (ANY "/repl" {:as req}
        (drawbridge req))
   (GET "/twitter/term/:term" [term]
@@ -55,6 +55,12 @@
            {:status 500
             :headers {"Content-Type" "text/html"}
             :body (slurp (io/resource "500.html"))}))))
+
+(def app (-> api-routes
+             wrap-params
+             wrap-content-type
+             wrap-dir-index
+             handler/site))
 
 (defn wrap-dir-index
   "Middleware to force request for / to return index.html"
