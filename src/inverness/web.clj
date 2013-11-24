@@ -35,6 +35,10 @@
 (defroutes app
   (ANY "/repl" {:as req}
        (drawbridge req))
+  (GET "/twitter/term/:term" [term]
+       (json-response {:term term :tweets (twitter/get-tweets-by-term term)}))
+  (GET "/twitter/location/:location" [location]
+       (json-response {:location location :tweets (twitter/get-tweets-by-location location)}))
   (GET "/" []
        {:status 200
         :headers {"Content-Type" "text/plain"}
