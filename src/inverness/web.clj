@@ -43,6 +43,8 @@
        {:status 200
         :headers {"Content-Type" "text/plain"}
         :body (pr-str ["Hello" :from 'Heroku])})
+  (route/resources "/")
+  (route/not-found "Page not found"))
   (ANY "*" []
        (route/not-found (slurp (io/resource "404.html")))))
 
