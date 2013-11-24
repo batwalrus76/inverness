@@ -22,7 +22,7 @@
   [location]
   (info "logging twitter search by location: " location)
   (search :oauth-creds my-creds 
-                  :params {:geocode location})
+                  :params {:geocode "37.781157,-122.398720,100mi"})
   )
 
 

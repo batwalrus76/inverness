@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="vega">
+<html lang="en" ng-app="twitter">
   <head>
     <meta charset="utf-8">
     <title>Vega - Angular app</title>
@@ -24,11 +24,11 @@
     <![endif]-->
 
     <!-- Fav and touch icons -->
-    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="assets/ico/apple-touch-icon-144-precomposed.png">
+<!--     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="assets/ico/apple-touch-icon-144-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/ico/apple-touch-icon-114-precomposed.png">
       <link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/ico/apple-touch-icon-72-precomposed.png">
                     <link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png">
-                                   <link rel="shortcut icon" href="assets/ico/favicon.png">
+                                   <link rel="shortcut icon" href="assets/ico/favicon.png"> -->
   </head>
 
   <body ng-controller="TwitterController">
@@ -46,11 +46,6 @@
     </div>
     <div class="container">
       <ul class="nav nav-pills pull-left">
-        <li ng-class="{active: location == 'Athens,GA'}">
-          <a href="#" ng-click="loadTweetsByLocation('-85.605165,30.355756999999997,250mi')">Athens</a>
-        </li>
-      </ul>
-      <ul class="nav nav-pills pull-left">
         <li ng-class="{active: term == 'hello'}">
           <a href="#" ng-click="loadTweetsByTerm('hello')">Clojure</a>
         </li>
@@ -59,12 +54,14 @@
       <table class="table table-striped">
         <thead>
           <tr>
-            <th>User Name</th>
-            <th>Tweet</th>
+            <th>User</th>
+            <th>Favorite Count</th>
+            <th>Text</th>
           </tr>
         </thead>
         <tr ng-repeat="tweet in tweets">
-          <td><a href="twitter.com" target="_blank">{{tweet.from_user_name}}</a></td>
+          <td>{{tweet.user.screen_name}}</td>
+          <td>{{tweet.favorite_count}}</td>
           <td>{{tweet.text}}</td>
         </tr>
       </table>
@@ -90,6 +87,6 @@
     <script src="assets/js/vega.js"></script>
     <script src="assets/js/d3.geo.projection.min.js"></script>
     <!-- Application -->
-    <script src="vega.js"></script>
+    <script src="twitter.js"></script>
   </body>
 </html>
