@@ -14,11 +14,11 @@
                  [com.cemerick/drawbridge "0.0.6"]
                  [org.clojure/tools.logging "0.2.6"]
                  [twitter-api "0.7.4"]]
-  :min-lein-version "2.0.0"
+  :min-lein-version "2.0.0"  
   :plugins [[environ/environ.lein "0.2.1"]
                 [lein-ring "0.8.3"]
-                [lein-swank "1.4.5"]
+                [lein-swank "1.4.5"]]
   :hooks [environ.leiningen.hooks]
-  :profiles {:production {:env {:production true}}}
   :main inverness.web
-  :ring {:handler inverness.web/app})
+  :ring {:handler inverness.web/app}
+  :profiles {:production {:env {:production true}}})
