@@ -56,6 +56,12 @@
             :headers {"Content-Type" "text/html"}
             :body (slurp (io/resource "500.html"))}))))
 
+(defn wrap-dir-index
+  "Middleware to force request for / to return index.html"
+  [handler]
+  (fn [req]
+    (handler (update-in req [:uri] #(if (= "/" %) "/index.html" %)))))
+
 (defn -main [& [port]]
   (let [port (Integer. (or port (env :port) 5000))
         ;; TODO: heroku config:add SESSION_SECRET=$RANDOM_16_CHARS
