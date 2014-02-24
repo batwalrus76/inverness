@@ -16,6 +16,7 @@
             [ring.middleware.basic-authentication :as basic]
             [cemerick.drawbridge :as drawbridge]
             [inverness.twitter :as twitter]
+            [inverness.geocode :as geocode]
             [environ.core :refer [env]]))
 
 (defn- authenticated? [user pass]
@@ -39,6 +40,8 @@
        (json-response {:term term :tweets (twitter/get-tweets-by-term term)}))
   (GET "/twitter/location/:location" [location]
        (json-response {:location location :tweets (twitter/get-tweets-by-location location)}))
+  (GET "/geocode/address/:address" [address]
+       (json-response {:geocode (geocode/get-geocode-by-address address)}))
   (GET "/" []
        {:status 200
         :headers {"Content-Type" "text/plain"}

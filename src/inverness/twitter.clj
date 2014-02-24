@@ -1,5 +1,6 @@
 (ns inverness.twitter
-  (:require [clj-http.client :as http])
+  (:require [clj-http.client :as http]
+            [inverness.geocode :as geocode])
   (:use [clojure.tools.logging :only (info error)]
   	  [twitter.oauth]
    		[twitter.callbacks]
@@ -21,10 +22,10 @@
 (defn get-tweets-by-location
   [location]
   (info "logging twitter search by location: " location)
+  (def lat_lng (geocode/get-geocode-by-address location))
   (search :oauth-creds my-creds 
-                  :params {:geocode "37.781157,-122.398720,100mi"})
+                  :params {:geocode (str lat_lng["lat"] "," lat_lng["lng"] ",1000mi")})
   )
-
 
 (defn get-tweets-by-term
   [term]
